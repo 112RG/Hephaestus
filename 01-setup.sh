@@ -188,8 +188,6 @@ cat > /mnt/etc/hosts <<EOF
 127.0.1.1   $hostname.localdomain   $hostname
 EOF
 
-mount $ESP /mnt/boot
-
 # Configuring the system.    
 arch-chroot /mnt /bin/bash -e <<EOF
     # Setting up timezone.
