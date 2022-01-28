@@ -17,11 +17,6 @@ function updateSysClock()
 	timedatectl set-ntp true
 }
 
-function setLocale()
-{
-
-}
-
 function initPackages()
 {
 	print "Init system on /mnt"
@@ -30,7 +25,7 @@ function initPackages()
 
 function genFStab()
 {
-	print "Generating fstab on /mnt
+	print "Generating fstab on /mnt"
 	genfstab -U /mnt >> /mnt/etc/fstab
 }
 
@@ -38,17 +33,18 @@ print () {
     echo -e "\e[1m\e[93m[ \e[92m•\e[93m ] \e[4m$1\e[0m"
 }
 
-banner
 
-// Set sys clock
-updateSysClock
+print "Weclome. Arch will now be setup"
 
-// Partition drives
+print "Welcome to easy-arch, a script made in order to simplify the process of installing Arch Linux."
+PS3="Please select the disk where Arch Linux is going to be installed: "
+select ENTRY in $(lsblk -dpnoNAME|grep -P "/dev/sd|nvme|vd");
+do
+    DISK=$ENTRY
+    print "Installing Arch Linux on $DISK."
+    break
+done
 
-// Init packacges
-initPackages
-
-fenFStab
 
 
 
