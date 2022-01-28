@@ -22,8 +22,7 @@ echo -e "\nCreating Filesystems...\n$HR"
 mkfs.fat -F32 ${EFI_PARTITION}
 mkfs.ext4 ${ROOT_PARTITION}
 # mount target
-mkdir /mnt
 mount "${ROOT_PARTITION}" /mnt
 mkdir /mnt/boot
-mkdir /mnt/boot/efi
 mount "${EFI_PARTITION}" /mnt/boot/
+mkdir /mnt/boot/efi
