@@ -231,7 +231,7 @@ network_selector
 
 # Pacstrap (setting up a base sytem onto the new root).
 print "Installing the base system (it may take a while)."
-pacstrap /mnt --needed base $kernel $microcode linux-firmware $kernel-headers btrfs-progs grub grub-btrfs rsync efibootmgr snapper reflector base-devel snap-pac zram-generator >/dev/null
+pacstrap /mnt --needed base $kernel $microcode linux-firmware $kernel-headers grub rsync efibootmgr reflector base-devel >/dev/null
 
 # Setting up the hostname.
 hostname_selector
@@ -302,7 +302,8 @@ fi
 print "Enabling colours, animations, and parallel in pacman."
 sed -i 's/#Color/Color\nILoveCandy/;s/^#ParallelDownloads.*$/ParallelDownloads = 10/' /mnt/etc/pacman.conf
 
-
+arch-chroot /mnt pacman -S pipewire pipewire-pulse --needed
+arch-chroot /mnt pacman -S firefox --needed
 
 
 
