@@ -25,3 +25,13 @@ PKGS=(
 	'noto-fonts-emoji'
 	'ttf-material-icons-git'
 )
+
+
+chsh -s $(which fish)
+
+for PKG in "${PKGS[@]}"; do
+    yay -S --noconfirm $PKG
+done
+
+
+print "Done!"

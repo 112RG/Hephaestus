@@ -25,7 +25,7 @@ PKGS=(
     'zip'                     # Zip compression program
     'bat'
     'exa'
-    'joe'
+    'nano'
     'fish'
     # GENERAL UTILITIES ---------------------------------------------------
 
