@@ -93,8 +93,9 @@ hostname_selector () {
 
 # Setting up the locale (function).
 locale_set () {
-    echo "$locale.UTF-8 UTF-8"  > /mnt/etc/locale.gen
-    echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
+    print "Setting System local"
+    echo "en_US.UTF-8 UTF-8"  > /mnt/etc/locale.gen
+    echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
 }
 
 # Setting up the keyboard layout (function).
@@ -223,6 +224,7 @@ arch-chroot /mnt /bin/bash -e <<EOF
     
     # Installing GRUB.
     echo "Installing GRUB on /boot."
+    mkdir /boot/efi
     grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
     # Creating grub config file.
     echo "Creating GRUB config file."
