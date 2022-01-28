@@ -104,16 +104,12 @@ keyboard_set () {
     echo "KEYMAP=$kblayout" > /mnt/etc/vconsole.conf
 }
 
-# Selecting a kernel to install (function). 
-kernel_set () { 
-   kernel="linux"
-}
 
 # Selecting a way to handle internet connection (function). 
 network_set () {
-            pacstrap /mnt networkmanager >/dev/null
-            print "Enabling NetworkManager."
-            systemctl enable NetworkManager --root=/mnt &>/dev/null
+    pacstrap /mnt networkmanager >/dev/null
+    print "Enabling NetworkManager."
+    systemctl enable NetworkManager --root=/mnt &>/dev/null
 }
 
 print "Weclome to the Hephaestus arch installer"
@@ -180,7 +176,7 @@ network_set
 
 # Pacstrap (setting up a base sytem onto the new root).
 print "Installing the base system (it may take a while)."
-pacstrap /mnt --needed base $kernel $microcode linux-firmware $kernel-headers grub rsync efibootmgr reflector base-devel >/dev/null
+pacstrap /mnt --needed base linux $microcode linux-firmware linux-headers grub rsync efibootmgr reflector base-devel >/dev/null
 
 # Setting up the hostname.
 hostname_selector
