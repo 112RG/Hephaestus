@@ -2,7 +2,6 @@ print () {
     echo -e "\e[1m\e[93m[ \e[92m•\e[93m ] \e[4m$1\e[0m"
 }
 
-
 PKGS=(
 
     # TERMINAL UTILITIES --------------------------------------------------
@@ -70,8 +69,8 @@ curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install 
 
 git clone "https://aur.archlinux.org/yay.git"
 
-cd ${HOME}/yay
-makepkg -si
+cd /home/thor/yay
+sudo su -u thor makepkg -si
 AUR_PKGS=(
 	'discord-canary'
 	'i3lock-fancy-rapid-git'
@@ -91,7 +90,7 @@ AUR_PKGS=(
 )
 
 for AUR_PKGS in "${AUR_PKGS[@]}"; do
-    yay -S --noconfirm $AUR_PKGS
+    sudo su -u thor yay -S --noconfirm $AUR_PKGS
 done
 
 print "Done!"
