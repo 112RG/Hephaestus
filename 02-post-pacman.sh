@@ -26,7 +26,7 @@ PKGS=(
     'bat'
     'exa'
     'joe'
-
+    'fish'
     # GENERAL UTILITIES ---------------------------------------------------
 
     'nautilus'              # Filesystem browser
@@ -35,19 +35,20 @@ PKGS=(
 
     # DEVELOPMENT ---------------------------------------------------------
 
-    'clang'                 # C Lang compiler
-    'cmake'                 # Cross-platform open-source make system
-    'code'                  # Visual Studio Code
-    'electron'              # Cross-platform development using Javascript
     'git'                   # Version control system
     'gcc'                   # C/C++ compiler
     'glibc'                 # C libraries
-    'meld'                  # File/directory comparison
     'python'                # Scripting language
 
     # MEDIA ---------------------------------------------------------------
 
     'feh'                   # Image viewer
+
+    # DE ------------------------------------------------------------------
+    'xss-lock'    
+    'i3-gaps'
+    'ttf-dejavu'
+    'lightdm'
 )
 
 for PKG in "${PKGS[@]}"; do

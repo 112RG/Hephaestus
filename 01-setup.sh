@@ -294,8 +294,8 @@ fi
 print "Enabling colours, animations, and parallel in pacman."
 sed -i 's/#Color/Color\nILoveCandy/;s/^#ParallelDownloads.*$/ParallelDownloads = 10/' /mnt/etc/pacman.conf
 
-arch-chroot /mnt pacman -S pipewire pipewire-pulse firefox --noconfirm --needed
-
+print "Setup script complete please run. The post install script"
+#arch-chroot /mnt pacman -S pipewire pipewire-pulse firefox git --noconfirm --needed
 
 
 
