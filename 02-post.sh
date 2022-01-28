@@ -55,6 +55,8 @@ PKGS=(
     'lightdm-webkit2-greeter'
     'xorg'
     'xorg-server'
+    'rofi'
+
 )
 
 for PKG in "${PKGS[@]}"; do
