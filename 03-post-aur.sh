@@ -5,33 +5,9 @@ print () {
 
 print "Cloning yay"
 
-git clone "https://aur.archlinux.org/yay.git"
-
-PKGS=(
-	'discord-canary'
-	'i3lock-fancy-rapid'
-	'imgur-screenshot-git'
-	'cloudflared'
-	'fontweak'
-	'ncdc-git'
-	'paru'
-	'tor-browser'
-	'zoom'
-	'visual-studio-code-insiders-bin'
-	'polybar'
-	'nerd-fonts-jetbrains-mono'
-	'ttf-hack'
-	'noto-fonts'
-	'noto-fonts-emoji'
-	'ttf-material-icons-git'
-)
 
 
 chsh -s $(which fish)
-
-for PKG in "${PKGS[@]}"; do
-    yay -S --noconfirm $PKG
-done
 
 
 print "Done!"

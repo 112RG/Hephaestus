@@ -32,6 +32,8 @@ PKGS=(
     'nautilus'              # Filesystem browser
     'nitrogen'               # Wallpaper changer
     'nemo'
+    'picom'
+    'curl'
 
     # DEVELOPMENT ---------------------------------------------------------
 
@@ -48,7 +50,11 @@ PKGS=(
     'xss-lock'    
     'i3-gaps'
     'ttf-dejavu'
+    'ttf-jetbrains-mono'
     'lightdm'
+    'lightdm-webkit2-greeter'
+    'xorg'
+    'xorg-server'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -56,5 +62,34 @@ for PKG in "${PKGS[@]}"; do
     sudo pacman -S "$PKG" --noconfirm --needed
 done
 
+chsh -s $(which fish)
+
+curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+
+git clone "https://aur.archlinux.org/yay.git"
+
+cd ${HOME}/yay
+makepkg -si
+AUR_PKGS=(
+	'discord-canary'
+	'i3lock-fancy-rapid-git'
+	'imgur-screenshot-git'
+	'cloudflared'
+	'fontweak'
+	'ncdc-git'
+	'tor-browser'
+	'zoom'
+	'visual-studio-code-insiders-bin'
+	'polybar'
+	'nerd-fonts-jetbrains-mono'
+	'ttf-hack'
+	'noto-fonts'
+	'noto-fonts-emoji'
+	'ttf-material-icons-git'
+)
+
+for AUR_PKGS in "${AUR_PKGS[@]}"; do
+    yay -S --noconfirm $AUR_PKGS
+done
 
 print "Done!"
