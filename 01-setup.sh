@@ -113,53 +113,81 @@ network_set () {
     systemctl enable NetworkManager --root=/mnt &>/dev/null
 }
 
+setup_disk () {
+    PS3="Please select the disk where Arch Linux is going to be installed: "
+    select ENTRY in $(lsblk -dpnoNAME|grep -P "/dev/sd|nvme|vd");
+    do
+        DISK=$ENTRY
+        print "Installing Arch Linux on $DISK."
+        break
+    done
+
+    # disk prep
+    sgdisk -Z ${DISK} # zap all on disk
+    sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
+
+    # create partitions
+    sgdisk -n 1:0:+1000M ${DISK} # partition 1 (UEFI SYS), default start block, 512MB
+    sgdisk -n 2:0:0     ${DISK} # partition 2 (Root), default start, remaining
+
+    # set partition types
+    sgdisk -t 1:ef00 ${DISK}
+    sgdisk -t 2:8300 ${DISK}
+
+    # label partitions
+    sgdisk -c 1:"UEFISYS" ${DISK}
+    sgdisk -c 2:"ROOT" ${DISK}
+
+    # make filesystems
+    echo -e "\nCreating Filesystems...\n$HR"
+
+    mkfs.vfat -F32 -n "UEFISYS" "${DISK}p1"
+    mkfs.ext4 -L "ROOT" "${DISK}p2"
+
+    # mount target
+    mkdir /mnt
+    mount -t ext4 "${DISK}p2" /mnt
+    mkdir /mnt/boot
+    mkdir /mnt/boot/efi
+    mount -t vfat "${DISK}p1" /mnt/boot/
+}
 print "Weclome to the Hephaestus arch installer"
 updateSysClock
-PS3="Please select the disk where Arch Linux is going to be installed: "
-select ENTRY in $(lsblk -dpnoNAME|grep -P "/dev/sd|nvme|vd");
-do
-    DISK=$ENTRY
-    print "Installing Arch Linux on $DISK."
-    break
-done
+setup_disk
+# # Deleting old partition scheme.
+# read -r -p "This will delete the current partition table on $DISK. Do you agree [y/N]? " response
+# response=${response,,}
+# if [[ "$response" =~ ^(yes|y)$ ]]; then
+#     print "Wiping $DISK."
+#     wipefs -af "$DISK"
+#     sgdisk -Zo "$DISK"
+# else
+#     print "Quitting."
+#     exit
+# fi
 
-# Deleting old partition scheme.
-read -r -p "This will delete the current partition table on $DISK. Do you agree [y/N]? " response
-response=${response,,}
-if [[ "$response" =~ ^(yes|y)$ ]]; then
-    print "Wiping $DISK."
-    wipefs -af "$DISK"
-    sgdisk -Zo "$DISK"
-else
-    print "Quitting."
-    exit
-fi
+# # Creating a new partition scheme.
+# print "Creating the partitions on $DISK."
+# parted -s "$DISK" \
+#     mklabel gpt \
+#     mkpart ESP fat32 1MiB 513MiB \
+#     set 1 esp on \
+#     mkpart ROOT 513MiB 100% \
 
-# Creating a new partition scheme.
-print "Creating the partitions on $DISK."
-parted -s "$DISK" \
-    mklabel gpt \
-    mkpart ESP fat32 1MiB 513MiB \
-    set 1 esp on \
-    mkpart ROOT 513MiB 100% \
+# ESP="/dev/disk/by-partlabel/ESP"
+# ROOT="/dev/disk/by-partlabel/ROOT"
 
-ESP="/dev/disk/by-partlabel/ESP"
-ROOT="/dev/disk/by-partlabel/ROOT"
+# # Informing the Kernel of the changes.
+# print "Informing the Kernel about the disk changes."
+# partprobe "$DISK"
 
-# Informing the Kernel of the changes.
-print "Informing the Kernel about the disk changes."
-partprobe "$DISK"
+# # Formatting the ESP as FAT32.
+# print "Formatting the EFI Partition as FAT32."
+# mkfs.fat -F 32 $ESP &>/dev/null
 
-# Formatting the ESP as FAT32.
-print "Formatting the EFI Partition as FAT32."
-mkfs.fat -F 32 $ESP &>/dev/null
-
-# Formatting the ROOT as EXT4.
-print "Formatting the ROOT Partition as EXT4."
-mkfs.ext4 $ROOT &>/dev/null
-
-# Mount root drive
-mount $ROOT /mnt
+# # Formatting the ROOT as EXT4.
+# print "Formatting the ROOT Partition as EXT4."
+# mkfs.ext4 $ROOT &>/dev/null
 
 # Enable parallel downloading in pacman
 sed -i "s/^#ParallelDownloads.*$/ParallelDownloads = 10/" /etc/pacman.conf
