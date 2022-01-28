@@ -64,14 +64,11 @@ for PKG in "${PKGS[@]}"; do
     sudo pacman -S "$PKG" --noconfirm --needed
 done
 
-chsh -s $(which fish)
-
-curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 
 git clone "https://aur.archlinux.org/yay.git"
 
 cd /home/thor/yay
-makepkg -si
+makepkg -si  --noconfirm 
 AUR_PKGS=(
 	'discord-canary'
 	'i3lock-fancy-rapid-git'
@@ -96,10 +93,12 @@ done
 
 git clone  /home/thor
 git clone --bare https://github.com/112RG/dotfiles.git /home/thor/.dotfiles
-
-
-
-
-git --git-dir=/home/thor/.dotfiles/ --work-tree=/home/thor/ checkout
+git --git-dir=/home/thor/.dotfiles/ --work-tree=/home/thor/ checkout -f
 git --git-dir=/home/thor/.dotfiles/ --work-tree=/home/thor/ config --local status.showUntrackedFiles no
+
+chsh -s $(which fish)
+
+curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+
+
 print "Done!"
