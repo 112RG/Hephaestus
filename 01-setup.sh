@@ -220,6 +220,7 @@ echo "root:$rootpass" | arch-chroot /mnt chpasswd
 
 # Setting user password.
 if [ -n "$username" ]; then
+    USERNAME=$username
     print "Adding the user $username to the system with root privilege."
     arch-chroot /mnt useradd -m -G wheel -s /bin/bash "$username"
     sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /mnt/etc/sudoers
@@ -231,7 +232,13 @@ fi
 print "Enabling colours, animations, and parallel in pacman."
 sed -i 's/#Color/Color\nILoveCandy/;s/^#ParallelDownloads.*$/ParallelDownloads = 10/' /mnt/etc/pacman.conf
 
-print "Setup script complete please run. The post install script"
+print "Setup script complete please run. The post install Will now run"
+
+cp /root/Hephaestus/02-post.sh "/mnt/home/${username}/"
+
+arch-chroot /mnt /bin/chown $username:$username /home/$username/02-post.sh
+arch-chroot -u $username /mnt /bin/bash /home/$username/02-post.sh
+
 #arch-chroot /mnt pacman -S pipewire pipewire-pulse firefox git --noconfirm --needed
 
 
