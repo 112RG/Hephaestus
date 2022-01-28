@@ -127,8 +127,8 @@ read -r -p "This will delete the current partition table on $DISK. Do you agree 
 response=${response,,}
 if [[ "$response" =~ ^(yes|y)$ ]]; then
     print "Wiping $DISK."
-    wipefs -af "$DISK" &>/dev/null
-    sgdisk -Zo "$DISK" &>/dev/null
+    wipefs -af "$DISK"
+    sgdisk -Zo "$DISK"
 else
     print "Quitting."
     exit
