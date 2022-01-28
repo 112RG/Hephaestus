@@ -97,12 +97,9 @@ done
 git clone  /home/thor
 git clone --bare https://github.com/112RG/dotfiles.git /home/thor/.dotfiles
 
-alias config='/usr/bin/git --git-dir=/home/thor/.cfg/ --work-tree=/home/thor/'
 
-mkdir -p .config-backup && \
-config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
-xargs -I{} mv {} .config-backup/{}
 
-config checkout
-config config --local status.showUntrackedFiles no
+
+git --git-dir=/home/thor/.dotfiles/ --work-tree=/home/thor/ checkout
+git --git-dir=/home/thor/.dotfiles/ --work-tree=/home/thor/ config --local status.showUntrackedFiles no
 print "Done!"
