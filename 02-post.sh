@@ -91,7 +91,7 @@ AUR_PKGS=(
 )
 
 for AUR_PKGS in "${AUR_PKGS[@]}"; do
-    sudo su -u thor yay -S --noconfirm $AUR_PKGS
+    yay -S --noconfirm $AUR_PKGS
 done
 
 git clone  /home/thor
