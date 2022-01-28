@@ -210,6 +210,8 @@ mkfs.ext4 $ROOT &>/dev/null
 
 
 mount $ROOT /mnt
+mkdir /mnt/boot
+mkdir /mnt/boot/efi
 mount $ESP /mnt/boot/
 
 # Enable parallel downloading in pacman
@@ -271,7 +273,7 @@ arch-chroot /mnt /bin/bash -e <<EOF
     
     # Installing GRUB.
     echo "Installing GRUB on /boot."
-    grub-install --target=x86_64-efi --bootloader-id=GRUB &>/dev/null
+    grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi &>/dev/null
     # Creating grub config file.
     echo "Creating GRUB config file."
     grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null
