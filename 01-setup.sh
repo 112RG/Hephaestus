@@ -173,7 +173,7 @@ network_set
 
 # Pacstrap (setting up a base sytem onto the new root).
 print "Installing the base system (it may take a while)."
-pacstrap /mnt --needed base linux $microcode linux-firmware linux-headers grub rsync efibootmgr reflector base-devel >/dev/null
+pacstrap /mnt --needed base linux $microcode linux-firmware linux-headers grub rsync efibootmgr reflector base-devel
 
 # Setting up the hostname.
 hostname_selector
