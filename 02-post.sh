@@ -52,6 +52,7 @@ PKGS=(
     'ttf-jetbrains-mono'
     'lightdm'
     'lightdm-webkit2-greeter'
+    'lightdm-gtk-greeter'
     'xorg'
     'xorg-server'
     'rofi'
@@ -70,7 +71,7 @@ curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install 
 git clone "https://aur.archlinux.org/yay.git"
 
 cd /home/thor/yay
-sudo su -u thor makepkg -si
+makepkg -si
 AUR_PKGS=(
 	'discord-canary'
 	'i3lock-fancy-rapid-git'
@@ -93,4 +94,15 @@ for AUR_PKGS in "${AUR_PKGS[@]}"; do
     sudo su -u thor yay -S --noconfirm $AUR_PKGS
 done
 
+git clone  /home/thor
+git clone --bare https://github.com/112RG/dotfiles.git /home/thor/.dotfiles
+
+alias config='/usr/bin/git --git-dir=/home/thor/.cfg/ --work-tree=/home/thor/'
+
+mkdir -p .config-backup && \
+config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+xargs -I{} mv {} .config-backup/{}
+
+config checkout
+config config --local status.showUntrackedFiles no
 print "Done!"
