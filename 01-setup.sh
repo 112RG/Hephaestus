@@ -161,21 +161,21 @@ mkfs.fat -F 32 $ESP &>/dev/null
 print "Formatting the ROOT Partition as EXT4."
 mkfs.ext4 $ROOT &>/dev/null
 
-
+# Mount root drive
 mount $ROOT /mnt
-mkdir /mnt/boot
-mkdir /mnt/boot/efi
-mount $ESP /mnt/boot/
 
 # Enable parallel downloading in pacman
 sed -i "s/^#ParallelDownloads.*$/ParallelDownloads = 10/" /etc/pacman.conf
 
 reflector --country "Australia" --protocol https --latest 4 --save /etc/pacman.d/mirrorlist
 
+# Set Kernel
 kernel_set
 
+# Set microcode
 microcode_detector
 
+# Set network stack
 network_set
 
 # Pacstrap (setting up a base sytem onto the new root).
@@ -208,6 +208,8 @@ cat > /mnt/etc/hosts <<EOF
 127.0.1.1   $hostname.localdomain   $hostname
 EOF
 
+mount $ESP /mnt/boot
+
 # Configuring the system.    
 arch-chroot /mnt /bin/bash -e <<EOF
     # Setting up timezone.
@@ -220,18 +222,18 @@ arch-chroot /mnt /bin/bash -e <<EOF
     
     # Generating locales.
     echo "Generating locales."
-    locale-gen &>/dev/null
+    locale-gen
     
     # Generating a new initramfs.
     echo "Creating a new initramfs."
-    mkinitcpio -P &>/dev/null
+    mkinitcpio -P
     
     # Installing GRUB.
     echo "Installing GRUB on /boot."
-    grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi &>/dev/null
+    grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
     # Creating grub config file.
     echo "Creating GRUB config file."
-    grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null
+    grub-mkconfig -o /boot/grub/grub.cfg
 EOF
 
 # Setting root password.
