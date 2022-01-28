@@ -165,9 +165,6 @@ sed -i "s/^#ParallelDownloads.*$/ParallelDownloads = 10/" /etc/pacman.conf
 
 reflector --country "Australia" --protocol https --latest 4 --save /etc/pacman.d/mirrorlist
 
-# Set Kernel
-kernel_set
-
 # Set microcode
 microcode_detector
 
