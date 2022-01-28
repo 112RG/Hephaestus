@@ -217,13 +217,13 @@ mount $ESP /mnt/boot/
 # Enable parallel downloading in pacman
 sed -i "s/^#ParallelDownloads.*$/ParallelDownloads = 10/" /etc/pacman.conf
 
+reflector --country "Australia" --protocol https --latest 4 --save /etc/pacman.d/mirrorlist
+
 kernel_selector
 
 microcode_detector
 
 network_selector
-
-reflector --country "Australia" --protocol https --latest 4 --save /etc/pacman.d/mirrorlist
 
 # Pacstrap (setting up a base sytem onto the new root).
 print "Installing the base system (it may take a while)."
