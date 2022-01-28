@@ -105,62 +105,15 @@ keyboard_set () {
 }
 
 # Selecting a kernel to install (function). 
-kernel_selector () {
-    print "List of kernels:"
-    print "1) Stable: Vanilla Linux kernel with a few specific Arch Linux patches applied"
-    print "2) Hardened: A security-focused Linux kernel"
-    print "3) LTS: Long-term support (LTS) Linux kernel"
-    print "4) Zen: A Linux kernel optimized for desktop usage"
-    read -r -p "Insert the number of the corresponding kernel: " choice
-    case $choice in
-        1 ) kernel="linux"
-            ;;
-        2 ) kernel="linux-hardened"
-            ;;
-        3 ) kernel="linux-lts"
-            ;;
-        4 ) kernel="linux-zen"
-            ;;
-        * ) print "You did not enter a valid selection."
-            kernel_selector
-    esac
+kernel_set () { 
+   kernel="linux"
 }
 
 # Selecting a way to handle internet connection (function). 
-network_selector () {
-    print "Network utilities:"
-    print "1) IWD: iNet wireless daemon is a wireless daemon for Linux written by Intel (WiFi-only)"
-    print "2) NetworkManager: Universal network utility to automatically connect to networks (both WiFi and Ethernet)"
-    print "3) wpa_supplicant: Cross-platform supplicant with support for WEP, WPA and WPA2 (WiFi-only, a DHCP client will be automatically installed as well)"
-    print "4) dhcpcd: Basic DHCP client (Ethernet only or VMs)"
-    print "5) I will do this on my own (only advanced users)"
-    read -r -p "Insert the number of the corresponding networking utility: " choice
-    case $choice in
-        1 ) print "Installing IWD."
-            pacstrap /mnt iwd >/dev/null
-            print "Enabling IWD."
-            systemctl enable iwd --root=/mnt &>/dev/null
-            ;;
-        2 ) print "Installing NetworkManager."
+network_set () {
             pacstrap /mnt networkmanager >/dev/null
             print "Enabling NetworkManager."
             systemctl enable NetworkManager --root=/mnt &>/dev/null
-            ;;
-        3 ) print "Installing wpa_supplicant and dhcpcd."
-            pacstrap /mnt wpa_supplicant dhcpcd >/dev/null
-            print "Enabling wpa_supplicant and dhcpcd."
-            systemctl enable wpa_supplicant --root=/mnt &>/dev/null
-            systemctl enable dhcpcd --root=/mnt &>/dev/null
-            ;;
-        4 ) print "Installing dhcpcd."
-            pacstrap /mnt dhcpcd >/dev/null
-            print "Enabling dhcpcd."
-            systemctl enable dhcpcd --root=/mnt &>/dev/null
-            ;; 
-        5 ) ;;
-        * ) print "You did not enter a valid selection."
-            network_selector
-    esac
 }
 
 print "Weclome to the Hephaestus arch installer"
@@ -219,11 +172,11 @@ sed -i "s/^#ParallelDownloads.*$/ParallelDownloads = 10/" /etc/pacman.conf
 
 reflector --country "Australia" --protocol https --latest 4 --save /etc/pacman.d/mirrorlist
 
-kernel_selector
+kernel_set
 
 microcode_detector
 
-network_selector
+network_set
 
 # Pacstrap (setting up a base sytem onto the new root).
 print "Installing the base system (it may take a while)."
