@@ -141,15 +141,15 @@ setup_disk () {
     # make filesystems
     echo -e "\nCreating Filesystems...\n$HR"
 
-    mkfs.vfat -F32 -n "UEFISYS" "${DISK}p1"
-    mkfs.ext4 -L "ROOT" "${DISK}p2"
+    mkfs.vfat -F32 -n "UEFISYS" "${DISK}1"
+    mkfs.ext4 -L "ROOT" "${DISK}1"
 
     # mount target
     mkdir /mnt
-    mount -t ext4 "${DISK}p2" /mnt
+    mount -t ext4 "${DISK}2" /mnt
     mkdir /mnt/boot
     mkdir /mnt/boot/efi
-    mount -t vfat "${DISK}p1" /mnt/boot/
+    mount -t vfat "${DISK}1" /mnt/boot/
 }
 print "Weclome to the Hephaestus arch installer"
 updateSysClock
