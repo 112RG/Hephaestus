@@ -92,23 +92,15 @@ hostname_selector () {
 }
 
 # Setting up the locale (function).
-locale_selector () {
-    read -r -p "Please insert the locale you use (format: xx_XX or enter empty to use en_US): " locale
-    if [ -z "$locale" ]; then
-        print "en_US will be used as default locale."
-        locale="en_US"
-    fi
+locale_set () {
     echo "$locale.UTF-8 UTF-8"  > /mnt/etc/locale.gen
     echo "LANG=$locale.UTF-8" > /mnt/etc/locale.conf
 }
 
 # Setting up the keyboard layout (function).
-keyboard_selector () {
-    read -r -p "Please insert the keyboard layout you use (enter empty to use US keyboard layout): " kblayout
-    if [ -z "$kblayout" ]; then
-        print "US keyboard layout will be used by default."
-        kblayout="us"
-    fi
+keyboard_set () {
+    print "US keyboard layout will be used by default."
+    kblayout="us"
     echo "KEYMAP=$kblayout" > /mnt/etc/vconsole.conf
 }
 
@@ -246,10 +238,10 @@ userpass_selector
 rootpass_selector
 
 # Setting up the locale.
-locale_selector
+locale_set
 
 # Setting up keyboard layout.
-keyboard_selector
+keyboard_set
 
 # Setting hosts file.
 print "Setting hosts file."
@@ -302,8 +294,7 @@ fi
 print "Enabling colours, animations, and parallel in pacman."
 sed -i 's/#Color/Color\nILoveCandy/;s/^#ParallelDownloads.*$/ParallelDownloads = 10/' /mnt/etc/pacman.conf
 
-arch-chroot /mnt pacman -S pipewire pipewire-pulse --needed
-arch-chroot /mnt pacman -S firefox --needed
+arch-chroot /mnt pacman -S pipewire pipewire-pulse firefox --noconfirm --needed
 
 
 
