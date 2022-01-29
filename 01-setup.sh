@@ -32,6 +32,7 @@ function genFStab()
 print () {
     echo -e "\e[1m\e[93m[ \e[92m•\e[93m ] \e[4m$1\e[0m"
 }
+USERNAME=thor
 
 # Setting up a password for the user account (function).
 userpass_selector () {
@@ -171,7 +172,6 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # Setting username.
 
-USERNAME=thor
 userpass_selector
 rootpass_selector
 
