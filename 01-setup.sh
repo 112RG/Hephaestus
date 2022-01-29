@@ -32,7 +32,7 @@ function genFStab()
 print () {
     echo -e "\e[1m\e[93m[ \e[92m•\e[93m ] \e[4m$1\e[0m"
 }
-USERNAME=thor
+username=thor
 
 # Setting up a password for the user account (function).
 userpass_selector () {
