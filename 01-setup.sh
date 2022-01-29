@@ -233,9 +233,11 @@ sed -i 's/#Color/Color\nILoveCandy/;s/^#ParallelDownloads.*$/ParallelDownloads =
 print "Setup script complete please run. The post install Will now run"
 
 cp /root/Hephaestus/02-post.sh "/mnt/home/thor/"
+cp /root/Hephaestus/03-posts.sh "/mnt/home/thor/"
 
 arch-chroot /mnt /bin/chown thor /home/thor/02-post.sh
 arch-chroot /mnt /bin/sudo su - thor /home/thor/02-post.sh 
+arch-chroot /mnt /bin/bash /home/thor/03-posts.sh 
 
 #arch-chroot /mnt pacman -S pipewire pipewire-pulse firefox git --noconfirm --needed
 

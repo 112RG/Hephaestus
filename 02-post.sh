@@ -85,6 +85,7 @@ AUR_PKGS=(
 	'noto-fonts'
 	'noto-fonts-emoji'
 	'ttf-material-icons-git'
+    'lightdm-webkit2-theme-reactive'
 )
 
 for AUR_PKGS in "${AUR_PKGS[@]}"; do
@@ -99,6 +100,5 @@ git --git-dir=/home/thor/.dotfiles/ --work-tree=/home/thor/ config --local statu
 chsh -s $(which fish)
 
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-
 
 print "Done!"
