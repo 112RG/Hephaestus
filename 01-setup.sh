@@ -170,7 +170,8 @@ print "Generating a new fstab."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Setting username.
-read -r -p "Please enter name for a user account (enter empty to not create one): " username
+
+USERNAME=thor
 userpass_selector
 rootpass_selector
 
@@ -219,7 +220,6 @@ print "Setting root password."
 echo "root:$rootpass" | arch-chroot /mnt chpasswd
 
 # Setting user password.
-USERNAME=thor
 print "Adding the user $username to the system with root privilege."
 arch-chroot /mnt useradd -m -G wheel -s /bin/bash "$username"
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /mnt/etc/sudoers
