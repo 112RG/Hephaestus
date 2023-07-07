@@ -52,11 +52,9 @@ PKGS=(
     'ttf-jetbrains-mono'
     'noto-fonts' 
     'ttf-ubuntu-font-family' 
+    'ttf-jetbrains-mono-nerd'
     'ttf-dejavu' 
     'ttf-freefont'
-    'lightdm'
-    'lightdm-webkit2-greeter'
-    'lightdm-gtk-greeter'
     'xorg'
     'xorg-server'
     'xorg-xinit'
@@ -82,12 +80,10 @@ AUR_PKGS=(
 	'fontweak'
 	'ncdc-git'
 	'tor-browser'
-	'zoom'
 	'visual-studio-code-insiders-bin'
 	'polybar'
-	'nerd-fonts-jetbrains-mono'
 	'ttf-hack'
-    	'lightdm-webkit2-theme-reactive'
+    'neovim-git'
 )
 
 for AUR_PKGS in "${AUR_PKGS[@]}"; do
