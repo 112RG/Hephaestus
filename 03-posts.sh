@@ -6,6 +6,7 @@ print () {
 print "Running post sudo commands"
 
 systemctl enable lightdm
+sudo systemctl enable fstrim.timer
 sed -i "/greeter-session=/c\greeter-session=lightdm-webkit2-greeter" /etc/lightdm/lightdm.conf
 sed -i "/webkit_theme=/c\webkit_theme = reactive" /etc/lightdm/lightdm-webkit2-greeter.conf
 
