@@ -190,29 +190,36 @@ cat > /mnt/etc/hosts <<EOF
 EOF
 
 # Configuring the system.    
+print "Configuring the system (timezone, system clock, initramfs, Snapper, GRUB)."
 arch-chroot /mnt /bin/bash -e <<EOF
+
     # Setting up timezone.
-    echo "Setting up the timezone."
     ln -sf /usr/share/zoneinfo/$(curl -s http://ip-api.com/line?fields=timezone) /etc/localtime &>/dev/null
-    
+
     # Setting up clock.
-    echo "Setting up the system clock."
     hwclock --systohc
-    
+
     # Generating locales.
-    echo "Generating locales."
-    locale-gen
-    
+    locale-gen &>/dev/null
+
     # Generating a new initramfs.
-    echo "Creating a new initramfs."
-    mkinitcpio -P
-    
+    mkinitcpio -P &>/dev/null
+
+    # Snapper configuration.
+    umount /.snapshots
+    rm -r /.snapshots
+    snapper --no-dbus -c root create-config /
+    btrfs subvolume delete /.snapshots &>/dev/null
+    mkdir /.snapshots
+    mount -a &>/dev/null
+    chmod 750 /.snapshots
+
     # Installing GRUB.
-    echo "Installing GRUB on /boot."
-    grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
+    grub-install --target=x86_64-efi --efi-directory=/boot/ --bootloader-id=GRUB &>/dev/null
+
     # Creating grub config file.
-    echo "Creating GRUB config file."
-    grub-mkconfig -o /boot/grub/grub.cfg
+    grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null
+
 EOF
 
 # Setting root password.
