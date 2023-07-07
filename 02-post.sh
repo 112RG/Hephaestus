@@ -50,11 +50,16 @@ PKGS=(
     'i3-gaps'
     'ttf-dejavu'
     'ttf-jetbrains-mono'
+    'noto-fonts' 
+    'ttf-ubuntu-font-family' 
+    'ttf-dejavu' 
+    'ttf-freefont'
     'lightdm'
     'lightdm-webkit2-greeter'
     'lightdm-gtk-greeter'
     'xorg'
     'xorg-server'
+    'xorg-xinit'
     'rofi'
 
 )
@@ -82,10 +87,7 @@ AUR_PKGS=(
 	'polybar'
 	'nerd-fonts-jetbrains-mono'
 	'ttf-hack'
-	'noto-fonts'
-	'noto-fonts-emoji'
-	'ttf-material-icons-git'
-    'lightdm-webkit2-theme-reactive'
+    	'lightdm-webkit2-theme-reactive'
 )
 
 for AUR_PKGS in "${AUR_PKGS[@]}"; do
