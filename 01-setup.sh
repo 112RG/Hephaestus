@@ -205,15 +205,6 @@ arch-chroot /mnt /bin/bash -e <<EOF
     # Generating a new initramfs.
     mkinitcpio -P &>/dev/null
 
-    # Snapper configuration.
-    umount /.snapshots
-    rm -r /.snapshots
-    snapper --no-dbus -c root create-config /
-    btrfs subvolume delete /.snapshots &>/dev/null
-    mkdir /.snapshots
-    mount -a &>/dev/null
-    chmod 750 /.snapshots
-
     # Installing GRUB.
     grub-install --target=x86_64-efi --efi-directory=/boot/ --bootloader-id=GRUB &>/dev/null
 
